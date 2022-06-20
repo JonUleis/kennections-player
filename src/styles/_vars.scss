@@ -1,0 +1,29 @@
+$desktop: 960px;
+$tablet: 768px;
+
+@mixin mq-below($px) {
+  @media (max-width: ($px - 1)) {
+    @content;
+  }
+}
+
+@mixin mq-above($px) {
+  @media (min-width: $px) {
+    @content;
+  }
+}
+
+@mixin mq-between($from, $to) {
+  @media (min-width: $from) and (max-width: ($to - 1)) {
+    @content;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}

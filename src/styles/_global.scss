@@ -1,0 +1,98 @@
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#app {
+  font-family: "Roboto Serif", serif;
+  height: 100%;
+  position: relative;
+}
+
+.loading {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  span {
+    margin: auto;
+  }
+}
+
+.game {
+  padding: 1em;
+}
+
+a {
+  color: inherit;
+}
+
+label {
+  display: block;
+  margin: 0 0 1em;
+
+  input {
+    display: block;
+    margin: 0.2em 0;
+    padding: 0.5em;
+    width: 24em;
+  }
+}
+
+.nav {
+  background: #eee;
+  text-align: center;
+  line-height: 1.4em;
+  list-style: none;
+  padding: 1em 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+
+    a {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    &::after {
+      content: "\00a0•\00a0";
+    }
+
+    &:last-child::after {
+      content: none;
+    }
+  }
+
+  .active {
+    color: darkcyan;
+    text-decoration: none;
+  }
+}
