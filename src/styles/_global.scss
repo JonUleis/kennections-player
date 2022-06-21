@@ -12,6 +12,7 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-width: 320px;
   overflow-y: scroll;
 }
 
@@ -50,10 +51,18 @@ body {
   margin: 0 auto;
   width: 100%;
 
+  @include mq-below($desktop + 16px) {
+    border: 0;
+  }
+
   h1 {
     font-size: 1.8em;
     font-weight: 500;
     margin: 0;
+
+    @include mq-below($tablet) {
+      font-size: 1.5em;
+    }
   }
 
   h2 {
@@ -64,6 +73,10 @@ body {
 
   p {
     margin: 1em 0 0;
+
+    @include mq-below($tablet) {
+      font-size: 15px;
+    }
   }
 
   a {
@@ -128,6 +141,8 @@ body {
     }
 
     .input {
+      align-items: center;
+      display: flex;
       min-height: 3em;
       padding: 0.3em 0 0;
     }
@@ -139,6 +154,10 @@ body {
       font: inherit;
       padding: 0.3em;
       width: 20em;
+
+      @include mq-below(400px) {
+        width: 100%;
+      }
 
       &::placeholder {
         color: inherit;
@@ -153,20 +172,29 @@ body {
   justify-content: space-between;
   width: 20em;
 
+  @include mq-below(400px) {
+    width: 100%;
+  }
+
   button {
     appearance: none;
     background: black;
+    border: 0;
     color: white;
     cursor: pointer;
     font: inherit;
     font-weight: 500;
-    padding: 0.2em 1em;
+    padding: 0.3em 1em;
   }
 }
 
 .image {
   display: block;
   max-width: 80%;
+
+  @include mq-below(400px) {
+    max-width: 100%;
+  }
 
   + span {
     color: #555;
@@ -180,6 +208,10 @@ body {
   list-style: none;
   padding: 1em;
   text-align: center;
+
+  @include mq-below(360px) {
+    font-size: 0.9em;
+  }
 
   span {
     font-weight: 500;
@@ -219,6 +251,13 @@ body {
   border-top: 1px solid rgba(white, 0.6);
   color: white;
   font-size: 0.9em;
+  line-height: 1.3em;
   text-align: center;
   padding: 1em;
+
+  @include mq-below(550px) {
+    br {
+      display: none;
+    }
+  }
 }

@@ -14,9 +14,9 @@
         games introduced in March 2022 interactively!
       </p>
       <p>
-        Note that the new Kennections no longer include alternate accepted
-        answers like the previous interactive version (eg. "steaks", "types of
-        steak"), but some fuzzy matching will be performed while answering.
+        Note that the new Kennections games no longer specify alternate answers
+        like the previous interactive version (eg. "steaks", "types of steak"),
+        but some fuzzy matching will be performed while answering.
       </p>
       <p>
         <label>
@@ -59,6 +59,7 @@
             v-model="inputs[i]"
             @keyup="changed(i)"
             @change="changed(i)"
+            @keyup.enter="i == 5 ? solve() : null"
             :placeholder="showBlanks ? blanks[i] : ''"
             type="text"
           />
@@ -162,16 +163,20 @@ export default {
           return false;
           // if submitted, match kennection if answer is 4+ letters long and contained in real kennection
         } else if (
-          this.fuzzy(this.inputs[el]).length >= 4 &&
+          this.fuzzy(this.inputs[el])?.length >= 4 &&
           this.answers[el].toLowerCase().includes(this.fuzzy(this.inputs[el]))
         ) {
           this.correct[el] = true;
         }
       } else if (
         // check if input contains the whole answer
-        this.fuzzy(this.inputs[el]).includes(this.fuzzy(this.answers[el]))
+        this.fuzzy(this.inputs[el])?.includes(this.fuzzy(this.answers[el]))
       ) {
         this.correct[el] = true;
+        // focus first unsolved field
+        this.$nextTick(() => {
+          document.querySelector(".input input")?.focus();
+        });
       }
     },
     solve() {
@@ -182,8 +187,8 @@ export default {
     },
     getPuzzle() {
       this.puzzleJson = {};
-      this.inputs = Array(5);
-      this.correct = Array(5);
+      this.inputs = Array(6);
+      this.correct = Array(6);
       this.submitted = false;
       this.image = null;
       axios
@@ -263,9 +268,8 @@ export default {
               );
             });
 
-            // debug
-            this.inputs = this.answers.slice(0);
-            this.inputKennection = this.kennection;
+            // debug - put answers into fields
+            // this.inputs = this.answers.slice(0);
           }
         });
     },
@@ -279,11 +283,12 @@ export default {
     },
     fuzzy(text) {
       return text
-        .toLowerCase()
+        ?.toLowerCase()
         .trim()
         .replace(/^a /, "")
         .replace(/^the /, "")
-        .replace(/s$/, "");
+        .replace(/s$/, "")
+        .replace(/[^a-z0-9]/gi, "");
     },
   },
 };
