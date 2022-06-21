@@ -12,6 +12,7 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: scroll;
 }
 
 html,
@@ -20,8 +21,9 @@ body {
 }
 
 #app {
-  font-family: "Roboto Serif", serif;
+  font-family: $font;
   height: 100%;
+  line-height: 1.5em;
   position: relative;
 }
 
@@ -34,40 +36,154 @@ body {
   bottom: 0;
 
   span {
+    color: $blue;
+    font-weight: 500;
     margin: auto;
   }
 }
 
 .game {
-  padding: 1em;
+  background: white;
+  border-left: $blue 0.5em solid;
+  border-right: $blue 0.5em solid;
+  max-width: $desktop;
+  margin: 0 auto;
+  width: 100%;
+
+  h1 {
+    font-size: 1.8em;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin: 0.5em 0 1em;
+  }
+
+  p {
+    margin: 1em 0 0;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  b {
+    font-weight: 500;
+  }
 }
 
-a {
-  color: inherit;
+.header {
+  background: $blue;
+  color: white;
+  padding: 1.5em 10em 1em 1em;
+
+  @include mq-below($tablet) {
+    padding-right: 1em;
+  }
 }
 
-label {
-  display: block;
-  margin: 0 0 1em;
+.content {
+  padding: 1.5em 10em 1em 1em;
 
-  input {
+  @include mq-below($tablet) {
+    padding-right: 1em;
+  }
+
+  label {
     display: block;
-    margin: 0.2em 0;
-    padding: 0.5em;
-    width: 24em;
+    margin: 0 0 1em;
+
+    .number {
+      color: $blue;
+      font-family: $font;
+      font-weight: 500;
+    }
+
+    b {
+      font-family: $font;
+      color: $blue;
+    }
+
+    span {
+      font-family: $fontSerif;
+      font-size: 15px;
+    }
+
+    .answer {
+      display: block;
+      font-weight: 600;
+      line-height: 1.2em;
+    }
+
+    .correct {
+      color: $green;
+    }
+
+    .incorrect {
+      color: red;
+      display: block;
+    }
+
+    .input {
+      min-height: 3em;
+      padding: 0.3em 0 0;
+    }
+
+    input {
+      appearance: none;
+      border: 1px solid black;
+      display: block;
+      font: inherit;
+      padding: 0.3em;
+      width: 20em;
+
+      &::placeholder {
+        color: inherit;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 20em;
+
+  button {
+    appearance: none;
+    background: black;
+    color: white;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 500;
+    padding: 0.2em 1em;
+  }
+}
+
+.image {
+  display: block;
+  max-width: 80%;
+
+  + span {
+    color: #555;
+    display: block;
   }
 }
 
 .nav {
-  background: #eee;
-  text-align: center;
-  line-height: 1.4em;
+  background: $blue;
+  color: white;
   list-style: none;
-  padding: 1em 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  padding: 1em;
+  text-align: center;
+
+  span {
+    font-weight: 500;
+  }
 
   ul {
     margin: 0;
@@ -83,7 +199,7 @@ label {
     }
 
     &::after {
-      content: "\00a0•\00a0";
+      content: "\00a0\2022\00a0";
     }
 
     &:last-child::after {
@@ -92,7 +208,17 @@ label {
   }
 
   .active {
-    color: darkcyan;
+    cursor: default;
+    font-weight: 500;
     text-decoration: none;
   }
+}
+
+.footer {
+  background: $blue;
+  border-top: 1px solid rgba(white, 0.6);
+  color: white;
+  font-size: 0.9em;
+  text-align: center;
+  padding: 1em;
 }

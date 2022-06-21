@@ -1,6 +1,12 @@
 $desktop: 960px;
 $tablet: 768px;
 
+$blue: #0095c4;
+$green: #00b11f;
+
+$font: "Roboto", sans-serif;
+$fontSerif: "Roboto Serif", serif;
+
 @mixin mq-below($px) {
   @media (max-width: ($px - 1)) {
     @content;
