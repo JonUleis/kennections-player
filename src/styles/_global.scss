@@ -99,7 +99,7 @@ body {
 }
 
 .content {
-  padding: 1.5em 10em 1em 1em;
+  padding: 1.5em 10em 1.5em 1em;
 
   @include mq-below($tablet) {
     padding-right: 1em;
@@ -199,6 +199,7 @@ body {
   + span {
     color: #555;
     display: block;
+    padding-top: 0.2em;
   }
 }
 

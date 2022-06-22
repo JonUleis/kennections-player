@@ -57,8 +57,9 @@
           <input
             v-else
             v-model="inputs[i]"
-            @keyup="changed(i)"
-            @change="changed(i)"
+            @input="$event.target.composing = false"
+            @keyup="changed(i, $event)"
+            @change="changed(i, $event)"
             @keyup.enter="i == 5 ? solve() : null"
             :placeholder="showBlanks ? blanks[i] : ''"
             type="text"
@@ -141,6 +142,7 @@ export default {
   mounted() {
     axios.post(`${process.env.VUE_APP_PHP}php/`).then((res) => {
       if (res.data) {
+        // get latest puzzle number
         this.latest =
           res.data.template.feedSection.articles[0].title.split("#")[1];
         this.navRows = [...Array(Math.floor(this.latest / 10)).keys()]
