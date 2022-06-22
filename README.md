@@ -1,24 +1,7 @@
-# kennections-player
+# Kennections Player
 
-## Project setup
-```
-yarn install
-```
+This web app allows the new Mental Floss [Kennections](https://www.mentalfloss.com/kennections) trivia games to be played with an interactive interface that allows you to type in answers, reminiscent of the pre-March 2022 redesign.
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+Game data is loaded in from Mental Floss during each site visit, then parsed into questions and answers in-browser. 
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Built in Vue.js by [Jon Uleis](https://jonuleis.com/).
