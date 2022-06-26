@@ -166,7 +166,7 @@ export default {
           // if submitted, match kennection if answer is 4+ letters long and contained in real kennection
         } else if (
           this.fuzzy(this.inputs[el])?.length >= 4 &&
-          this.answers[el].toLowerCase().includes(this.fuzzy(this.inputs[el]))
+          this.fuzzy(this.answers[el]).includes(this.fuzzy(this.inputs[el]))
         ) {
           this.correct[el] = true;
         }
