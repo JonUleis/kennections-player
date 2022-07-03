@@ -37,7 +37,10 @@
       </h2>
 
       <label v-for="(e, i) in inputs" :key="`q-${i}`">
-        <span v-if="i < 5" v-html="questions[i]" />
+        <span v-if="i < 5">
+          <span class="number">{{ i + 1 }}) </span>
+          <span v-html="questions[i]" />
+        </span>
         <b v-else>What's the Kennection?</b>
 
         <div class="input">
@@ -203,6 +206,8 @@ export default {
             let qIndex = this.puzzleJson.body.findIndex((el) => {
               return el.html?.includes("1.");
             });
+            if (qIndex < 0) qIndex = 1;
+
             // find index of q1 in the answers
             let aIndex =
               this.puzzleJson.body.length -
@@ -212,6 +217,12 @@ export default {
                 .findIndex((el) => {
                   return el.html?.includes("1.");
                 });
+            if (aIndex < 0 || aIndex >= this.puzzleJson.body.length) {
+              aIndex =
+                this.puzzleJson.body.findIndex((el) => {
+                  return el.text?.includes("ANSWERS");
+                }) + 3;
+            }
 
             this.questions = [
               this.clean(this.puzzleJson.body[qIndex].html),
@@ -264,10 +275,7 @@ export default {
             }
 
             this.questions.forEach((q, i) => {
-              this.questions[i] = q.replace(
-                /^([1-5])\.[\s]*/,
-                "<span class='number'>$1)</span> "
-              );
+              this.questions[i] = q.replace(/^([1-5])\.[\s]*/, "");
             });
 
             // debug - put answers into fields
