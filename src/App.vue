@@ -1,9 +1,5 @@
 <template>
-  <div class="loading" v-if="!puzzleJson.title">
-    <span v-if="this.latest">Loading Puzzle {{ this.puzzle }}...</span>
-    <span v-else>Connecting...</span>
-  </div>
-  <div class="game" v-else>
+  <div class="game">
     <header class="header">
       <h1>Kennections Player</h1>
       <p>
@@ -25,7 +21,11 @@
         </label>
       </p>
     </header>
-    <div class="content">
+    <div class="loading" v-if="!puzzleJson.title">
+      <span v-if="this.latest">Loading Puzzle {{ this.puzzle }}...</span>
+      <span v-else>Connecting...</span>
+    </div>
+    <div class="content" v-else>
       <h1>{{ puzzleJson.title }}</h1>
       <h2>
         by
@@ -83,7 +83,7 @@
       />
       <span v-if="submitted && image?.credit" v-html="image.credit" />
     </div>
-    <nav class="nav">
+    <nav class="nav" v-if="puzzleJson.title">
       <span>2022 Kennections Games</span>
       <ul v-if="latest % 10">
         <li v-for="i in latest % 10" :key="`nav-${i}`">

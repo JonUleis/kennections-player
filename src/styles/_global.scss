@@ -29,12 +29,9 @@ body {
 }
 
 .loading {
-  position: fixed;
   display: flex;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  flex: auto;
+  height: 100%;
 
   span {
     color: $blue;
@@ -47,8 +44,11 @@ body {
   background: white;
   border-left: $blue 0.5em solid;
   border-right: $blue 0.5em solid;
-  max-width: $desktop;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
+  min-height: 100%;
+  max-width: $desktop;
   width: 100%;
 
   @include mq-below($desktop + 16px) {
