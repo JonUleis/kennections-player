@@ -99,6 +99,7 @@ body {
 }
 
 .content {
+  flex: auto;
   padding: 1.5em 10em 1.5em 1em;
 
   @include mq-below($tablet) {
