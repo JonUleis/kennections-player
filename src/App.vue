@@ -61,8 +61,8 @@
             v-else
             v-model="inputs[i]"
             @input="$event.target.composing = false"
-            @keyup="changed(i, $event)"
-            @change="changed(i, $event)"
+            @keyup="changed(i)"
+            @change="changed(i)"
             @keyup.enter="i == 5 ? solve() : null"
             :placeholder="showBlanks ? blanks[i] : ''"
             type="text"
@@ -166,12 +166,19 @@ export default {
         // don't auto-submit kennection
         if (!this.submitted) {
           return false;
-          // if submitted, match kennection if answer is 4+ letters long and contained in real kennection
-        } else if (
-          this.fuzzy(this.inputs[el])?.length >= 4 &&
-          this.fuzzy(this.answers[el]).includes(this.fuzzy(this.inputs[el]))
-        ) {
-          this.correct[el] = true;
+          // if submitted, match kennection if 4+ letters long word is contained in real kennection
+        } else {
+          const answerWords = this.inputs[el]?.split(" ");
+          answerWords?.every((word) => {
+            if (
+              this.fuzzy(word).length >= 4 &&
+              this.fuzzy(this.answers[el]).includes(this.fuzzy(word))
+            ) {
+              this.correct[el] = true;
+              return false;
+            }
+            return true;
+          });
         }
       } else if (
         // check if input contains the whole answer
