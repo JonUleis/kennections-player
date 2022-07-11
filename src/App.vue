@@ -76,10 +76,11 @@
       </div>
 
       <img
-        v-else-if="image"
+        v-if="image"
         class="image"
         :src="`${image.host}${image.path}`"
-        :alt="image.alt"
+        :style="!submitted ? 'height: 0px' : null"
+        :alt="!submitted ? null : image.alt"
       />
       <span v-if="submitted && image?.credit" v-html="image.credit" />
     </div>
