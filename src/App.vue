@@ -82,7 +82,10 @@
         :style="!submitted ? 'height: 0px' : null"
         :alt="!submitted ? null : image.alt"
       />
-      <span v-if="submitted && image?.credit" v-html="image.credit" />
+      <span v-if="submitted && (image?.credit || image?.caption)">
+        {{ image.caption }} {{ image.credit && image.caption ? "/" : "" }}
+        {{ image.credit }}
+      </span>
     </div>
     <nav class="nav" v-if="puzzleJson.title">
       <span>2022 Kennections Games</span>
