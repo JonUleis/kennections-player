@@ -296,7 +296,10 @@ export default {
     },
     clean(text) {
       // strip HTML from q & a's
-      return text?.replace(/(<([^>]+)>)/gi, "").trim();
+      return text
+        ?.replace(/(<([^>]+)>)/gi, "")
+        .replace(/&#[0-9]+;/gi, "")
+        .trim();
     },
     cleanK1(text) {
       // clean up Kennections #1
