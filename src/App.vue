@@ -175,7 +175,7 @@ export default {
           const answerWords = this.inputs[el]?.split(" ");
           answerWords?.every((word) => {
             if (
-              this.fuzzy(word).length >= 4 &&
+              this.fuzzy(word).length >= 3 &&
               this.fuzzy(this.answers[el]).includes(this.fuzzy(word))
             ) {
               this.correct[el] = true;
