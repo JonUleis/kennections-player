@@ -36,7 +36,7 @@
         {{ puzzleJson.createdAt }}
       </h2>
 
-      <label v-for="(e, i) in inputs" :key="`q-${i}`">
+      <label v-for="(e, i) in inputs" :key="`q-${i}`" :readonly="correct[i]">
         <span v-if="i < 5">
           <span class="number">{{ i + 1 }}) </span>
           <span v-html="questions[i]" />
@@ -63,9 +63,10 @@
             @input="$event.target.composing = false"
             @keyup="changed(i)"
             @change="changed(i)"
+            @blur="blur(i, $event)"
             @keyup.enter="i == 5 ? solve() : null"
             :placeholder="showBlanks ? blanks[i] : ''"
-            type="text"
+            autocomplete="cancel"
           />
         </div>
       </label>
@@ -127,6 +128,7 @@
 
 <script>
 import axios from "axios";
+import pluralize from "pluralize";
 
 export default {
   name: "App",
@@ -170,7 +172,7 @@ export default {
         // don't auto-submit kennection
         if (!this.submitted) {
           return false;
-          // if submitted, match kennection if 4+ letters long word is contained in real kennection
+          // if submitted, match kennection if 3+ letters long word is contained in real kennection
         } else {
           const answerWords = this.inputs[el]?.split(" ");
           answerWords?.every((word) => {
@@ -186,13 +188,20 @@ export default {
         }
       } else if (
         // check if input contains the whole answer
+        this.inputs[el] &&
         this.fuzzy(this.inputs[el])?.includes(this.fuzzy(this.answers[el]))
       ) {
         this.correct[el] = true;
-        // focus first unsolved field
+        // focus next unsolved field
         this.$nextTick(() => {
-          document.querySelector(".input input")?.focus();
+          document.querySelector("label[readonly] ~ label input")?.focus();
         });
+      }
+    },
+    blur(el, event) {
+      if (!this.correct[el]) {
+        this.inputs[el] = event.target.value;
+        this.changed(el);
       }
     },
     solve() {
@@ -306,12 +315,12 @@ export default {
       return text.split("<br/><br/>")[1].split("</p>")[0];
     },
     fuzzy(text) {
-      return text
+      return pluralize
+        .singular(text)
         ?.toLowerCase()
         .trim()
         .replace(/^a /, "")
         .replace(/^the /, "")
-        .replace(/s$/, "")
         .replace(/[^a-z0-9]/gi, "");
     },
   },
