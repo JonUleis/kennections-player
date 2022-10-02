@@ -153,7 +153,7 @@ export default {
       if (res.data) {
         // get latest puzzle number
         this.latest =
-          res.data.template.feedSection.articles[0].title.split("#")[1];
+          res.data.template.authorPageInfo.articles[0].title.split("#")[1];
         this.navRows = [...Array(Math.floor(this.latest / 10)).keys()]
           .slice()
           .reverse();

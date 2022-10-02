@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $request = file_get_contents('php://input');
 $input = json_decode($request, true);
 
-$url = 'https://www.mentalfloss.com/kennections';
+$url = 'https://www.mentalfloss.com/authors/ken-jennings';
 if (isset($input['puzzle'])) {
     $url = 'https://www.mentalfloss.com/posts/ken-jennings-kennections-quiz-' . $input['puzzle'];
 }
