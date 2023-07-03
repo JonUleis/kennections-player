@@ -89,7 +89,7 @@
       </span>
     </div>
     <nav class="nav" v-if="puzzleJson.title">
-      <span>2022 Kennections Games</span>
+      <span>Kennections Games</span>
       <ul v-if="latest % 10">
         <li v-for="i in latest % 10" :key="`nav-${i}`">
           <a
