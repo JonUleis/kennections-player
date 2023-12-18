@@ -222,81 +222,101 @@ export default {
           if (res.data) {
             this.puzzleJson = res.data.template;
 
-            // find index of q1
-            let qIndex = this.puzzleJson.body.findIndex((el) => {
-              return el.html?.includes("1.");
-            });
-            if (qIndex < 0) qIndex = 1;
+            if (this.puzzleJson.body[1]?.type === "iframeEmbed") {
+              // for puzzle 93 and later with new interactive iframe
+              const data = this.puzzleJson.body[1].html;
+              this.questions = this.buildArray(
+                data,
+                "&amp;amp;amp;nbsp; ",
+                "&amp;lt;/h3"
+              );
+              this.answers = this.buildArray(
+                data,
+                "ul&amp;gt;&amp;lt;li&amp;gt;",
+                "&amp;lt;/li&amp;gt;&amp;lt;"
+              );
+              this.answers = this.answers.map((answer) => answer.toUpperCase());
+              this.blanks = this.answers.map((answer) =>
+                answer.replace(/ /g, "// ").replace(/[^ /]/g, "— ")
+              );
+              this.blanks[5] = "";
+            } else {
+              // find index of q1
+              let qIndex = this.puzzleJson.body.findIndex((el) => {
+                return el.html?.includes("1.");
+              });
+              if (qIndex < 0) qIndex = 1;
 
-            // find index of q1 in the answers
-            let aIndex =
-              this.puzzleJson.body.length -
-              this.puzzleJson.body
-                .slice(0)
-                .reverse()
-                .findIndex((el) => {
-                  return el.html?.includes("1.");
-                });
-            if (aIndex < 0 || aIndex >= this.puzzleJson.body.length) {
-              aIndex =
-                this.puzzleJson.body.findIndex((el) => {
-                  return el.text?.includes("ANSWERS");
-                }) + 3;
-            }
-
-            this.questions = [
-              this.clean(this.puzzleJson.body[qIndex].html),
-              this.clean(this.puzzleJson.body[qIndex + 2].html),
-              this.clean(this.puzzleJson.body[qIndex + 4].html),
-              this.clean(this.puzzleJson.body[qIndex + 6].html),
-              this.clean(this.puzzleJson.body[qIndex + 8].html),
-            ];
-            this.blanks = [
-              this.clean(this.puzzleJson.body[qIndex + 1].html),
-              this.clean(this.puzzleJson.body[qIndex + 3].html),
-              this.clean(this.puzzleJson.body[qIndex + 5].html),
-              this.clean(this.puzzleJson.body[qIndex + 7].html),
-              this.clean(this.puzzleJson.body[qIndex + 9].html),
-            ];
-            this.answers = [
-              this.clean(this.puzzleJson.body[aIndex].html),
-              this.clean(this.puzzleJson.body[aIndex + 2].html),
-              this.clean(this.puzzleJson.body[aIndex + 4].html),
-              this.clean(this.puzzleJson.body[aIndex + 6].html),
-              this.clean(this.puzzleJson.body[aIndex + 8].html),
-              this.clean(
-                // find kennection (last element with .html)
+              // find index of q1 in the answers
+              let aIndex =
+                this.puzzleJson.body.length -
                 this.puzzleJson.body
                   .slice(0)
                   .reverse()
-                  .find((el) => {
-                    return el.html;
-                  }).html
-              ),
-            ];
-            this.image = this.puzzleJson.body
-              .slice(0)
-              .reverse()
-              .find((el) => {
-                return el.image;
-              })?.image;
+                  .findIndex((el) => {
+                    return el.html?.includes("1.");
+                  });
+              if (aIndex < 0 || aIndex >= this.puzzleJson.body.length) {
+                aIndex =
+                  this.puzzleJson.body.findIndex((el) => {
+                    return el.text?.includes("ANSWERS");
+                  }) + 3;
+              }
 
-            // clean up Kennections #1
-            if (this.puzzle == 1) {
-              aIndex = aIndex - 1;
-              this.answers = [
-                this.cleanK1(this.puzzleJson.body[aIndex].html),
-                this.cleanK1(this.puzzleJson.body[aIndex + 1].html),
-                this.cleanK1(this.puzzleJson.body[aIndex + 2].html),
-                this.cleanK1(this.puzzleJson.body[aIndex + 3].html),
-                this.cleanK1(this.puzzleJson.body[aIndex + 4].html),
-                this.answers[5].replace("ANSWER:", ""),
+              this.questions = [
+                this.clean(this.puzzleJson.body[qIndex].html),
+                this.clean(this.puzzleJson.body[qIndex + 2].html),
+                this.clean(this.puzzleJson.body[qIndex + 4].html),
+                this.clean(this.puzzleJson.body[qIndex + 6].html),
+                this.clean(this.puzzleJson.body[qIndex + 8].html),
               ];
-            }
+              this.blanks = [
+                this.clean(this.puzzleJson.body[qIndex + 1].html),
+                this.clean(this.puzzleJson.body[qIndex + 3].html),
+                this.clean(this.puzzleJson.body[qIndex + 5].html),
+                this.clean(this.puzzleJson.body[qIndex + 7].html),
+                this.clean(this.puzzleJson.body[qIndex + 9].html),
+              ];
+              this.answers = [
+                this.clean(this.puzzleJson.body[aIndex].html),
+                this.clean(this.puzzleJson.body[aIndex + 2].html),
+                this.clean(this.puzzleJson.body[aIndex + 4].html),
+                this.clean(this.puzzleJson.body[aIndex + 6].html),
+                this.clean(this.puzzleJson.body[aIndex + 8].html),
+                this.clean(
+                  // find kennection (last element with .html)
+                  this.puzzleJson.body
+                    .slice(0)
+                    .reverse()
+                    .find((el) => {
+                      return el.html;
+                    }).html
+                ),
+              ];
+              this.image = this.puzzleJson.body
+                .slice(0)
+                .reverse()
+                .find((el) => {
+                  return el.image;
+                })?.image;
 
-            this.questions.forEach((q, i) => {
-              this.questions[i] = q.replace(/^([1-5])\.[\s]*/, "");
-            });
+              // clean up Kennections #1
+              if (this.puzzle == 1) {
+                aIndex = aIndex - 1;
+                this.answers = [
+                  this.cleanK1(this.puzzleJson.body[aIndex].html),
+                  this.cleanK1(this.puzzleJson.body[aIndex + 1].html),
+                  this.cleanK1(this.puzzleJson.body[aIndex + 2].html),
+                  this.cleanK1(this.puzzleJson.body[aIndex + 3].html),
+                  this.cleanK1(this.puzzleJson.body[aIndex + 4].html),
+                  this.answers[5].replace("ANSWER:", ""),
+                ];
+              }
+
+              this.questions.forEach((q, i) => {
+                this.questions[i] = q.replace(/^([1-5])\.[\s]*/, "");
+              });
+            }
 
             // debug - put answers into fields
             // this.inputs = this.answers.slice(0);
@@ -322,6 +342,15 @@ export default {
         .replace(/^a /, "")
         .replace(/^the /, "")
         .replace(/[^a-z0-9]/gi, "");
+    },
+    buildArray(text, startMarker, endMarker) {
+      const regexPattern = new RegExp(`${startMarker}(.*?)${endMarker}`, "g");
+      const matches = text.match(regexPattern) || [];
+      return matches.map((match) =>
+        this.clean(
+          match.replace(new RegExp(`${startMarker}|${endMarker}`, "g"), "")
+        )
+      );
     },
   },
 };
