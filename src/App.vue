@@ -227,13 +227,13 @@ export default {
               const data = this.puzzleJson.body[1].html;
               this.questions = this.buildArray(
                 data,
-                "&amp;amp;amp;nbsp; ",
-                "&amp;lt;/h3"
+                "lt;h3(.*?).(.*?) ",
+                "&amp(.*?)lt;/h3"
               );
               this.answers = this.buildArray(
                 data,
-                "ul&amp;gt;&amp;lt;li&amp;gt;",
-                "&amp;lt;/li&amp;gt;&amp;lt;"
+                "(ul&amp;amp;amp;amp;gt;&amp;amp;amp;amp;lt;li&amp;amp;amp;amp;gt;|ul&amp;gt;&amp;lt;li&amp;gt;)",
+                "(&amp;amp;amp;|&amp;lt;/)"
               );
               this.answers = this.answers.map((answer) => answer.toUpperCase());
               this.blanks = this.answers.map((answer) =>
@@ -328,6 +328,8 @@ export default {
       return text
         ?.replace(/(<([^>]+)>)/gi, "")
         .replace(/&#[0-9]+;/gi, "")
+        .replace(/&amp;amp;/g, "&")
+        .replace(/&quot;/g, '"')
         .trim();
     },
     cleanK1(text) {
