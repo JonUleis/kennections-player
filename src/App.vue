@@ -228,7 +228,7 @@ export default {
               this.questions = this.buildArray(
                 data,
                 "lt;h3(.*?).(.*?) ",
-                "&amp(.*?)lt;/h3"
+                "&amp;(amp;)*lt;/h3"
               );
               this.answers = this.buildArray(
                 data,
