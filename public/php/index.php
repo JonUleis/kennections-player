@@ -14,8 +14,17 @@ $options = [
 $context = stream_context_create($options);
 
 $url = 'https://www.mentalfloss.com/authors/ken-jennings';
+
 if (isset($input['puzzle'])) {
-    $url = 'https://www.mentalfloss.com/posts/ken-jennings-kennections-quiz-' . $input['puzzle'];
+    $url = 'https://www.mentalfloss.com/posts/';
+    switch ($input['puzzle']) {
+        case '111':
+            $url .= 'what-s-the-kennection-111-01hw34tbrzrc';
+            break;
+        default:
+            $url .= 'ken-jennings-kennections-quiz-' . $input['puzzle'];
+            break;
+    }
 }
 
 $html = file_get_contents($url, false, $context);
