@@ -21,6 +21,9 @@ if (isset($input['puzzle'])) {
         case '111':
             $url .= 'what-s-the-kennection-111-01hw34tbrzrc';
             break;
+        case '121':
+            $url .= 'ken-jenning-kennections-quiz-121';
+            break;
         default:
             $url .= 'ken-jennings-kennections-quiz-' . $input['puzzle'];
             break;
